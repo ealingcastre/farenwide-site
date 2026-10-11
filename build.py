@@ -15,6 +15,13 @@ def page(file, title, body, description):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{title}</title>
   <meta name="description" content="{description}">
+  <meta property="og:site_name" content="Farenwide">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{description}">
+  <meta property="og:url" content="https://www.farenwide.com/{file.removesuffix('.html').replace('index', '')}">
+  <meta property="og:image" content="https://www.farenwide.com/assets/icon.png">
+  <meta property="og:image:alt" content="The Farenwide app icon">
   <link rel="icon" href="assets/icon.png">
   <link rel="stylesheet" href="assets/site.css">
 </head>
