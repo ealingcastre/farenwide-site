@@ -156,7 +156,7 @@ page("privacy.html", "Privacy policy — Farenwide", f"""
 """, "How Farenwide handles your data.")
 
 
-page("delete-account.html", "Delete your data — Farenwide", f"""
+DELETION = f"""
     <article class="doc">
       <h1>Delete your data</h1>
       <p class="updated">Last updated {UPDATED}</p>
@@ -186,7 +186,10 @@ page("delete-account.html", "Delete your data — Farenwide", f"""
       <p>Email <a href="mailto:{CONTACT}?subject=Delete%20my%20Farenwide%20data">{CONTACT}</a>
         from the email address on your account, and we&rsquo;ll delete your data within 30 days.</p>
     </article>
-""", "How to delete your Farenwide account and data.")
+"""
+for name in ("delete-account.html", "data-deletion.html"):
+    page(name, "Delete your data — Farenwide", DELETION,
+         "How to delete your Farenwide account and data.")
 
 
 page("terms.html", "Terms of use — Farenwide", f"""
