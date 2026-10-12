@@ -4,7 +4,7 @@ Edit the page bodies below, then run: python3 build.py
 """
 
 CONTACT = "support@projectAlamo.com.au"
-UPDATED = "11 October 2026"
+UPDATED = "12 October 2026"
 
 
 def page(file, title, body, description):
@@ -137,13 +137,16 @@ page("privacy.html", "Privacy policy — Farenwide", f"""
         <li><strong>Google Firebase</strong> handles accounts and travel parties, as described above.
           See <a href="https://firebase.google.com/support/privacy">Firebase privacy</a>.</li>
         <li><strong>Apple, Google and Facebook sign-in</strong>, if you choose them.</li>
-        <li><strong>Anthropic (Claude)</strong> powers the optional AI features, which need you
-          to be signed in. The <em>travel assistant</em> receives your messages and your trip&rsquo;s
-          title, dates and places. The <em>AI story</em> receives your journal&rsquo;s captions,
-          notes and times and, only if you allow it, small previews of your photos and videos.
-          These are used to answer you and aren&rsquo;t used to train AI models. We keep a count of
-          how often you use AI features, not what you sent.
-          See <a href="https://www.anthropic.com/legal/privacy">Anthropic&rsquo;s privacy policy</a>.</li>
+        <li><strong>Google Gemini</strong>, run on Google Cloud, powers the optional AI features,
+          which need you to be signed in. (We may instead use Anthropic&rsquo;s Claude, also run on
+          Google Cloud; this page will say so.) The <em>travel assistant</em> receives your messages
+          and your trip&rsquo;s title, dates and places. The <em>AI story</em> receives your
+          journal&rsquo;s captions, notes and times and, only if you allow it, small previews of your
+          photos and videos. These are used to answer you; under Google Cloud&rsquo;s terms they
+          aren&rsquo;t used to train AI models. We keep a count of how often you use AI features,
+          not what you sent.
+          See <a href="https://cloud.google.com/terms/data-processing-addendum">Google Cloud&rsquo;s
+          data processing terms</a>.</li>
       </ul>
 
       <h2>Deleting your data</h2>
