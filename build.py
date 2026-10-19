@@ -3,7 +3,13 @@
 Edit the page bodies below, then run: python3 build.py
 """
 
+import hashlib
+
 CONTACT = "support@projectAlamo.com.au"
+
+# Changes whenever the stylesheet does, so browsers fetch the new one right
+# after a deploy instead of using a cached copy.
+CSS_VERSION = hashlib.sha256(open("assets/site.css", "rb").read()).hexdigest()[:10]
 UPDATED = "12 October 2026"
 
 
@@ -23,7 +29,7 @@ def page(file, title, body, description):
   <meta property="og:image" content="https://www.farenwide.com/assets/icon.png">
   <meta property="og:image:alt" content="The Farenwide app icon">
   <link rel="icon" href="assets/icon.png">
-  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/site.css?v={CSS_VERSION}">
 </head>
 <body>
   <header class="site">
@@ -70,7 +76,12 @@ SECTIONS = {
                 "stickers right where they happened."),
     "playback": ("Playback", "Relive it",
                  "Watch your trip unfold on the map, day by day, or turn it into a vertical "
-                 "story video of your photos with the map alongside."),
+                 "story of your photos with the map alongside. Save it as a video on iPhone; "
+                 "video export is coming to Android soon."),
+    "assistant": ("AI assistant", "Your travel sidekick",
+                  "Ask for ideas and add its picks to your map. After the trip, it finds your "
+                  "best moments and turns them into a story, with captions and hashtags ready to "
+                  "share (and a video to post, on iPhone now and on Android soon)."),
     "passport": ("Passport", "Collect the stamp",
                  "Every trip earns a stamp in your travel passport, so all your adventures "
                  "live in one place."),
@@ -95,8 +106,8 @@ STORY_CHAPTERS = [
 FEATURES = """
     <section class="features">
 """ + "".join(f"""      <div class="card" style="--accent:var(--{key})">
-        <span class="section-label"><span class="dot"></span>{name}</span>
-        <h3>{title}</h3><p>{text}</p></div>
+        <div class="card-banner">{name}</div>
+        <div class="card-body"><h3>{title}</h3><p>{text}</p></div></div>
 """ for key, (name, title, text) in SECTIONS.items()) + """    </section>
 """
 
