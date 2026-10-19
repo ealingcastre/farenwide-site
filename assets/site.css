@@ -9,6 +9,15 @@
   --bg: #f7f6f2;
   --surface: #ffffff;
   --line: #e2ded4;
+  --plum: #8a6fae;
+
+  /* Design dictionary: one colour per part of the app, used for its dot,
+     label and accents wherever it appears (see README). */
+  --plan: var(--sky);
+  --party: var(--sand);
+  --journal: var(--sage);
+  --playback: var(--amber);
+  --passport: var(--plum);
 }
 
 * {
@@ -111,10 +120,17 @@ nav a:hover {
 }
 
 .features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 16px;
   padding: 24px 0 56px;
+}
+
+.features .card {
+  flex: 1 1 240px;
+  max-width: 272px;
+  border-top: 4px solid var(--accent);
 }
 
 .card {
@@ -125,7 +141,7 @@ nav a:hover {
 }
 
 .card h3 {
-  margin: 8px 0 4px;
+  margin: 6px 0 4px;
 }
 
 .card p {
@@ -187,9 +203,6 @@ footer.site a {
 }
 
 /* The story of a trip: one chapter (app screen and caption) at a time. */
-:root {
-  --plum: #8a6fae;
-}
 
 .story {
   padding: 8px 0 48px;
@@ -254,7 +267,7 @@ footer.site a {
   padding: 20px 8px 0;
 }
 
-.story-step {
+.section-label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -265,9 +278,10 @@ footer.site a {
   color: var(--accent);
 }
 
-.story-step .dot {
+.section-label .dot {
   width: 10px;
   height: 10px;
+  background: var(--accent);
 }
 
 .story-panel h3 {
@@ -308,7 +322,7 @@ footer.site a {
 }
 
 .story-dot.active::before {
-  background: var(--sky);
+  background: var(--accent);
   transform: scale(1.25);
 }
 

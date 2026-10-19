@@ -55,20 +55,50 @@ def page(file, title, body, description):
 
 
 
+# The design dictionary: each part of the app has one colour, used for its
+# dot, label and accents everywhere on the site (tokens in assets/site.css,
+# matching AppColors in the app). Listed in story order.
+SECTIONS = {
+    "plan": ("Plan", "Dream it up",
+             "Pin places, arrange them by day, and see the route between them by foot, car "
+             "or train &mdash; even drag it onto the streets you prefer."),
+    "party": ("Party", "Bring your people",
+              "Share a trip with friends: plan together, choose which moments to share, and "
+              "see everyone&rsquo;s journey in one playback."),
+    "journal": ("Journal", "Hit the road",
+                "Record your path as you travel and add notes, photos, videos, voice memos and "
+                "stickers right where they happened."),
+    "playback": ("Playback", "Relive it",
+                 "Watch your trip unfold on the map, day by day, or turn it into a vertical "
+                 "story video of your photos with the map alongside."),
+    "passport": ("Passport", "Collect the stamp",
+                 "Every trip earns a stamp in your travel passport, so all your adventures "
+                 "live in one place."),
+}
+
+# The story of a trip: (screen, section, title, caption).
 STORY_CHAPTERS = [
-    ("plan", "var(--sky)", "Plan", "Dream it up",
+    ("plan", "plan", "Dream it up",
      "Pin the places you want to see, arrange them into days, and see the route between every stop."),
-    ("party", "var(--sand)", "Party", "Bring your people",
+    ("party", "party", "Bring your people",
      "Share the trip with a simple code. Everyone sees the plan, and your journal stays private until you share it."),
-    ("journal", "var(--sage)", "Journal", "Hit the road",
+    ("journal", "journal", "Hit the road",
      "Farenwide records the path you travel, and your notes and photos land right where they happened."),
-    ("moments", "var(--sage)", "Journal", "Keep the moments",
+    ("moments", "journal", "Keep the moments",
      "Add photos, videos, voice memos and notes as you go. That bowl of ramen deserves remembering."),
-    ("playback", "var(--amber)", "Playback", "Relive it",
+    ("playback", "playback", "Relive it",
      "Back home, watch the whole trip play back on the map, one moment at a time."),
-    ("passport", "var(--plum)", "Passport", "Collect the stamp",
+    ("passport", "passport", "Collect the stamp",
      "Every trip earns a stamp in your travel passport, ready for the next adventure."),
 ]
+
+FEATURES = """
+    <section class="features">
+""" + "".join(f"""      <div class="card" style="--accent:var(--{key})">
+        <span class="section-label"><span class="dot"></span>{name}</span>
+        <h3>{title}</h3><p>{text}</p></div>
+""" for key, (name, title, text) in SECTIONS.items()) + """    </section>
+"""
 
 STORY = """
     <section class="story" aria-labelledby="story-title">
@@ -77,19 +107,20 @@ STORY = """
         <p>From the first idea to the passport stamp.</p>
       </div>
       <div class="story-strip" tabindex="0" aria-label="Farenwide, chapter by chapter">
-""" + "".join(f"""        <figure class="story-panel" style="--accent:{colour}">
+""" + "".join(f"""        <figure class="story-panel" style="--accent:var(--{section})">
           <div class="phone"><img src="assets/story/{i}-{name}.webp" width="540" height="1200"
-            alt="Farenwide {section} screen" loading="{'eager' if i == 1 else 'lazy'}"></div>
+            alt="Farenwide {SECTIONS[section][0]} screen" loading="{'eager' if i == 1 else 'lazy'}"></div>
           <figcaption>
-            <span class="story-step"><span class="dot" style="background:{colour}"></span>{i}. {section}</span>
+            <span class="section-label"><span class="dot"></span>{i}. {SECTIONS[section][0]}</span>
             <h3>{title}</h3>
             <p>{text}</p>
           </figcaption>
         </figure>
-""" for i, (name, colour, section, title, text) in enumerate(STORY_CHAPTERS, 1)) + """      </div>
+""" for i, (name, section, title, text) in enumerate(STORY_CHAPTERS, 1)) + """      </div>
       <div class="story-dots">
-""" + "".join(f"""        <button class="story-dot" type="button" aria-label="Chapter {i}: {title}"></button>
-""" for i, (_, _, _, title, _) in enumerate(STORY_CHAPTERS, 1)) + """      </div>
+""" + "".join(f"""        <button class="story-dot" type="button" style="--accent:var(--{section})"
+          aria-label="Chapter {i}: {title}"></button>
+""" for i, (_, section, title, _) in enumerate(STORY_CHAPTERS, 1)) + """      </div>
     </section>
     <script>
     // One chapter at a time: swipe, tap a dot, or let it play. It moves on by
@@ -144,21 +175,7 @@ page("index.html", "Farenwide — plan, journal and relive your trips", f"""
       <span class="badge">Coming soon to iPhone and Android</span>
     </section>
 {STORY}
-    <section class="features">
-      <div class="card"><span class="dot" style="background:var(--sky)"></span>
-        <h3>Plan</h3><p>Pin places, arrange them by day, and see the route between them by
-        foot, car or train &mdash; even drag it onto the streets you prefer.</p></div>
-      <div class="card"><span class="dot" style="background:var(--sage)"></span>
-        <h3>Journal</h3><p>Record your path as you travel and add notes, photos, videos,
-        voice memos and stickers right where they happened.</p></div>
-      <div class="card"><span class="dot" style="background:var(--amber)"></span>
-        <h3>Playback</h3><p>Watch your trip unfold on the map, day by day, or turn it into
-        a vertical story video of your photos with the map alongside.</p></div>
-      <div class="card"><span class="dot" style="background:var(--sand)"></span>
-        <h3>Travel party</h3><p>Share a trip with friends: plan together, choose which
-        moments to share, and see everyone&rsquo;s journey in one playback.</p></div>
-    </section>
-""", "Farenwide: plan your days, journal as you go, and relive your trips on the map.")
+{FEATURES}""", "Farenwide: plan your days, journal as you go, and relive your trips on the map.")
 
 
 page("privacy.html", "Privacy policy — Farenwide", f"""
