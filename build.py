@@ -54,6 +54,87 @@ def page(file, title, body, description):
         f.write(html)
 
 
+
+STORY_CHAPTERS = [
+    ("plan", "var(--sky)", "Plan", "Dream it up",
+     "Pin the places you want to see, arrange them into days, and see the route between every stop."),
+    ("party", "var(--sand)", "Party", "Bring your people",
+     "Share the trip with a simple code. Everyone sees the plan, and your journal stays private until you share it."),
+    ("journal", "var(--sage)", "Journal", "Hit the road",
+     "Farenwide records the path you travel, and your notes and photos land right where they happened."),
+    ("moments", "var(--sage)", "Journal", "Keep the moments",
+     "Add photos, videos, voice memos and notes as you go. That bowl of ramen deserves remembering."),
+    ("playback", "var(--amber)", "Playback", "Relive it",
+     "Back home, watch the whole trip play back on the map, one moment at a time."),
+    ("passport", "var(--plum)", "Passport", "Collect the stamp",
+     "Every trip earns a stamp in your travel passport, ready for the next adventure."),
+]
+
+STORY = """
+    <section class="story" aria-labelledby="story-title">
+      <div class="story-header">
+        <h2 id="story-title">The story of a trip</h2>
+        <p>From the first idea to the passport stamp.</p>
+      </div>
+      <div class="story-strip" tabindex="0" aria-label="Farenwide, chapter by chapter">
+""" + "".join(f"""        <figure class="story-panel" style="--accent:{colour}">
+          <div class="phone"><img src="assets/story/{i}-{name}.webp" width="540" height="1200"
+            alt="Farenwide {section} screen" loading="{'eager' if i == 1 else 'lazy'}"></div>
+          <figcaption>
+            <span class="story-step"><span class="dot" style="background:{colour}"></span>{i}. {section}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </figcaption>
+        </figure>
+""" for i, (name, colour, section, title, text) in enumerate(STORY_CHAPTERS, 1)) + """      </div>
+      <div class="story-dots">
+""" + "".join(f"""        <button class="story-dot" type="button" aria-label="Chapter {i}: {title}"></button>
+""" for i, (_, _, _, title, _) in enumerate(STORY_CHAPTERS, 1)) + """      </div>
+    </section>
+    <script>
+    // One chapter at a time: swipe, tap a dot, or let it play. It moves on by
+    // itself every few seconds while in view, loops back to the start, and
+    // stops for good once someone takes over (or prefers reduced motion).
+    (function () {
+      var strip = document.querySelector('.story-strip');
+      var panels = Array.prototype.slice.call(document.querySelectorAll('.story-panel'));
+      var dots = Array.prototype.slice.call(document.querySelectorAll('.story-dot'));
+      if (!strip || !panels.length) return;
+      var current = 0, timer = null, visible = false;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function show(i) {
+        current = (i + panels.length) % panels.length;
+        mark(current);
+        strip.scrollTo({ left: panels[current].offsetLeft - strip.offsetLeft, behavior: still ? 'auto' : 'smooth' });
+      }
+      function mark(i) {
+        dots.forEach(function (d, j) { d.classList.toggle('active', j === i); d.setAttribute('aria-current', j === i ? 'step' : 'false'); });
+      }
+      function tick() { stop(); if (visible && !still) timer = setTimeout(function () { show(current + 1); tick(); }, 4500); }
+      function stop() { clearTimeout(timer); timer = null; }
+      function takeOver() { still = true; stop(); }
+
+      dots.forEach(function (d, i) { d.addEventListener('click', function () { takeOver(); show(i); }); });
+      ['pointerdown', 'wheel', 'keydown', 'touchstart'].forEach(function (e) { strip.addEventListener(e, takeOver, { passive: true }); });
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.target === strip) { visible = e.isIntersecting; tick(); }
+            else if (e.isIntersecting) { current = panels.indexOf(e.target); mark(current); }
+          });
+        }, { root: null, threshold: 0.3 }).observe(strip);
+        var inStrip = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { current = panels.indexOf(e.target); mark(current); } });
+        }, { root: strip, threshold: 0.6 });
+        panels.forEach(function (p) { inStrip.observe(p); });
+      }
+      mark(0);
+    })();
+    </script>
+"""
+
 page("index.html", "Farenwide — plan, journal and relive your trips", f"""
     <section class="hero">
       <img src="assets/icon.png" alt="Farenwide app icon">
@@ -62,6 +143,7 @@ page("index.html", "Farenwide — plan, journal and relive your trips", f"""
         and playing your trip back on the map &mdash; on your own or with your travel party.</p>
       <span class="badge">Coming soon to iPhone and Android</span>
     </section>
+{STORY}
     <section class="features">
       <div class="card"><span class="dot" style="background:var(--sky)"></span>
         <h3>Plan</h3><p>Pin places, arrange them by day, and see the route between them by

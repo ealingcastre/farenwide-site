@@ -34,6 +34,120 @@
         and playing your trip back on the map &mdash; on your own or with your travel party.</p>
       <span class="badge">Coming soon to iPhone and Android</span>
     </section>
+
+    <section class="story" aria-labelledby="story-title">
+      <div class="story-header">
+        <h2 id="story-title">The story of a trip</h2>
+        <p>From the first idea to the passport stamp.</p>
+      </div>
+      <div class="story-strip" tabindex="0" aria-label="Farenwide, chapter by chapter">
+        <figure class="story-panel" style="--accent:var(--sky)">
+          <div class="phone"><img src="assets/story/1-plan.webp" width="540" height="1200"
+            alt="Farenwide Plan screen" loading="eager"></div>
+          <figcaption>
+            <span class="story-step"><span class="dot" style="background:var(--sky)"></span>1. Plan</span>
+            <h3>Dream it up</h3>
+            <p>Pin the places you want to see, arrange them into days, and see the route between every stop.</p>
+          </figcaption>
+        </figure>
+        <figure class="story-panel" style="--accent:var(--sand)">
+          <div class="phone"><img src="assets/story/2-party.webp" width="540" height="1200"
+            alt="Farenwide Party screen" loading="lazy"></div>
+          <figcaption>
+            <span class="story-step"><span class="dot" style="background:var(--sand)"></span>2. Party</span>
+            <h3>Bring your people</h3>
+            <p>Share the trip with a simple code. Everyone sees the plan, and your journal stays private until you share it.</p>
+          </figcaption>
+        </figure>
+        <figure class="story-panel" style="--accent:var(--sage)">
+          <div class="phone"><img src="assets/story/3-journal.webp" width="540" height="1200"
+            alt="Farenwide Journal screen" loading="lazy"></div>
+          <figcaption>
+            <span class="story-step"><span class="dot" style="background:var(--sage)"></span>3. Journal</span>
+            <h3>Hit the road</h3>
+            <p>Farenwide records the path you travel, and your notes and photos land right where they happened.</p>
+          </figcaption>
+        </figure>
+        <figure class="story-panel" style="--accent:var(--sage)">
+          <div class="phone"><img src="assets/story/4-moments.webp" width="540" height="1200"
+            alt="Farenwide Journal screen" loading="lazy"></div>
+          <figcaption>
+            <span class="story-step"><span class="dot" style="background:var(--sage)"></span>4. Journal</span>
+            <h3>Keep the moments</h3>
+            <p>Add photos, videos, voice memos and notes as you go. That bowl of ramen deserves remembering.</p>
+          </figcaption>
+        </figure>
+        <figure class="story-panel" style="--accent:var(--amber)">
+          <div class="phone"><img src="assets/story/5-playback.webp" width="540" height="1200"
+            alt="Farenwide Playback screen" loading="lazy"></div>
+          <figcaption>
+            <span class="story-step"><span class="dot" style="background:var(--amber)"></span>5. Playback</span>
+            <h3>Relive it</h3>
+            <p>Back home, watch the whole trip play back on the map, one moment at a time.</p>
+          </figcaption>
+        </figure>
+        <figure class="story-panel" style="--accent:var(--plum)">
+          <div class="phone"><img src="assets/story/6-passport.webp" width="540" height="1200"
+            alt="Farenwide Passport screen" loading="lazy"></div>
+          <figcaption>
+            <span class="story-step"><span class="dot" style="background:var(--plum)"></span>6. Passport</span>
+            <h3>Collect the stamp</h3>
+            <p>Every trip earns a stamp in your travel passport, ready for the next adventure.</p>
+          </figcaption>
+        </figure>
+      </div>
+      <div class="story-dots">
+        <button class="story-dot" type="button" aria-label="Chapter 1: Dream it up"></button>
+        <button class="story-dot" type="button" aria-label="Chapter 2: Bring your people"></button>
+        <button class="story-dot" type="button" aria-label="Chapter 3: Hit the road"></button>
+        <button class="story-dot" type="button" aria-label="Chapter 4: Keep the moments"></button>
+        <button class="story-dot" type="button" aria-label="Chapter 5: Relive it"></button>
+        <button class="story-dot" type="button" aria-label="Chapter 6: Collect the stamp"></button>
+      </div>
+    </section>
+    <script>
+    // One chapter at a time: swipe, tap a dot, or let it play. It moves on by
+    // itself every few seconds while in view, loops back to the start, and
+    // stops for good once someone takes over (or prefers reduced motion).
+    (function () {
+      var strip = document.querySelector('.story-strip');
+      var panels = Array.prototype.slice.call(document.querySelectorAll('.story-panel'));
+      var dots = Array.prototype.slice.call(document.querySelectorAll('.story-dot'));
+      if (!strip || !panels.length) return;
+      var current = 0, timer = null, visible = false;
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function show(i) {
+        current = (i + panels.length) % panels.length;
+        mark(current);
+        strip.scrollTo({ left: panels[current].offsetLeft - strip.offsetLeft, behavior: still ? 'auto' : 'smooth' });
+      }
+      function mark(i) {
+        dots.forEach(function (d, j) { d.classList.toggle('active', j === i); d.setAttribute('aria-current', j === i ? 'step' : 'false'); });
+      }
+      function tick() { stop(); if (visible && !still) timer = setTimeout(function () { show(current + 1); tick(); }, 4500); }
+      function stop() { clearTimeout(timer); timer = null; }
+      function takeOver() { still = true; stop(); }
+
+      dots.forEach(function (d, i) { d.addEventListener('click', function () { takeOver(); show(i); }); });
+      ['pointerdown', 'wheel', 'keydown', 'touchstart'].forEach(function (e) { strip.addEventListener(e, takeOver, { passive: true }); });
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.target === strip) { visible = e.isIntersecting; tick(); }
+            else if (e.isIntersecting) { current = panels.indexOf(e.target); mark(current); }
+          });
+        }, { root: null, threshold: 0.3 }).observe(strip);
+        var inStrip = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { current = panels.indexOf(e.target); mark(current); } });
+        }, { root: strip, threshold: 0.6 });
+        panels.forEach(function (p) { inStrip.observe(p); });
+      }
+      mark(0);
+    })();
+    </script>
+
     <section class="features">
       <div class="card"><span class="dot" style="background:var(--sky)"></span>
         <h3>Plan</h3><p>Pin places, arrange them by day, and see the route between them by
