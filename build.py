@@ -183,6 +183,23 @@ DELETION = f"""
       <p class="note">If you signed in a while ago, the app may ask you to sign out and back in
         first, to confirm it&rsquo;s you.</p>
 
+      <h2>Delete some of your data, and keep your account</h2>
+      <p>You can remove what you&rsquo;ve shared with a travel party without deleting your account:</p>
+      <ul>
+        <li><strong>A journal item and its photo, video or voice memo:</strong> open it in the
+          <strong>Journal</strong> and switch off <strong>Share with travel party</strong>. It&rsquo;s
+          deleted from our servers straight away and stays on your phone.</li>
+        <li><strong>Your recorded trail:</strong> in the trip&rsquo;s <strong>Party</strong> tab,
+          switch off <strong>Share my trail</strong>. Your uploaded trail is deleted straight away.</li>
+        <li><strong>A travel party:</strong> in the trip&rsquo;s <strong>Party</strong> tab, tap
+          <strong>Leave party</strong>. You&rsquo;re removed from the party and the trip stays on your
+          phone as a solo trip.</li>
+      </ul>
+      <p>To delete anything else, such as your profile photo, email
+        <a href="mailto:{CONTACT}?subject=Delete%20some%20of%20my%20Farenwide%20data">{CONTACT}</a>
+        from the email address on your account and tell us what to delete. We&rsquo;ll do it within
+        30 days.</p>
+
       <h2>Delete everything on your phone</h2>
       <p>Solo trips and your journal are stored only on your device. Deleting a trip in the app,
         or deleting the app, removes them.</p>
