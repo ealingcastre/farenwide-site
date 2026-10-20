@@ -76,12 +76,12 @@ SECTIONS = {
                 "stickers right where they happened."),
     "playback": ("Playback", "Relive it",
                  "Watch your trip unfold on the map, day by day, or turn it into a vertical "
-                 "story of your photos with the map alongside. Save it as a video on iPhone; "
-                 "video export is coming to Android soon."),
+                 "story video of your photos with the map alongside, set to music from our "
+                 "built-in library."),
     "assistant": ("AI assistant", "Your travel sidekick",
                   "Ask for ideas and add its picks to your map. After the trip, it finds your "
-                  "best moments and turns them into a story, with captions and hashtags ready to "
-                  "share (and a video to post, on iPhone now and on Android soon)."),
+                  "best moments and turns them into a story video, with captions and hashtags "
+                  "ready to share."),
     "passport": ("Passport", "Collect the stamp",
                  "Every trip earns a stamp in your travel passport, so all your adventures "
                  "live in one place."),
