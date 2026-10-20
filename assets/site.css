@@ -347,3 +347,55 @@ footer.site a {
     max-width: calc(100vw - 40px);
   }
 }
+
+/* Promo videos: one card per video, the phone-shaped video beside its
+   caption (stacked on narrow screens). */
+.videos {
+  padding: 40px 0 56px;
+}
+
+.videos h1 {
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.videos .lead {
+  color: var(--muted);
+  margin: 4px 0 28px;
+}
+
+.video-card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  margin: 0 0 32px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+  border-radius: 16px;
+}
+
+.video-card video {
+  flex: 0 0 auto;
+  width: min(280px, 100%);
+  height: auto;
+  border-radius: 20px;
+  background: var(--ink);
+  box-shadow: 0 12px 30px rgba(27, 42, 56, 0.2);
+}
+
+.video-card figcaption {
+  flex: 1 1 260px;
+}
+
+.video-card h2 {
+  margin: 6px 0;
+  font-size: 1.35rem;
+}
+
+.video-card p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}

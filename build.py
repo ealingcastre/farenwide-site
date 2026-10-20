@@ -36,6 +36,7 @@ def page(file, title, body, description):
     <div class="wrap">
       <a class="brand" href="index.html"><img src="assets/icon.png" alt="">Farenwide</a>
       <nav>
+        <a href="videos.html">Promo videos</a>
         <a href="privacy.html">Privacy</a>
         <a href="support.html">Support</a>
       </nav>
@@ -50,6 +51,7 @@ def page(file, title, body, description):
       <a href="terms.html">Terms of use</a>
       <a href="delete-account.html">Delete your data</a>
       <a href="support.html">Support</a>
+      <a href="videos.html">Promo videos</a>
       <p>&copy; 2026 Project Alamo</p>
     </div>
   </footer>
@@ -362,6 +364,41 @@ page("terms.html", "Terms of use — Farenwide", f"""
       <p><a href="mailto:{CONTACT}">{CONTACT}</a></p>
     </article>
 """, "Terms of use for Farenwide.")
+
+
+# Promo videos: newest first. To add one, put the MP4 (and a poster
+# image) in assets/videos/ and add a line here.
+VIDEOS = [
+    {
+        "file": "journal-recording",
+        "section": "journal",
+        "title": "Record your path as you travel",
+        "text": "Tap Start recording and Farenwide draws your route on the map as you walk. "
+                "Here, an evening stroll through Gion in Kyoto: it keeps recording with the app "
+                "in the background, with a notification so you always know it's on, and it "
+                "stays on your phone.",
+        "length": "1:51",
+    },
+]
+
+page("videos.html", "Promo videos — Farenwide", """
+    <article class="videos">
+      <h1>Promo videos</h1>
+      <p class="lead">See Farenwide in action. Feel free to share these.</p>
+""" + "".join(f"""      <figure class="video-card" style="--accent:var(--{v['section']})">
+        <video controls playsinline preload="metadata" poster="assets/videos/{v['file']}.jpg"
+          width="540" height="1200">
+          <source src="assets/videos/{v['file']}.mp4" type="video/mp4">
+        </video>
+        <figcaption>
+          <span class="section-label"><span class="dot"></span>{SECTIONS[v['section']][0]} · {v['length']}</span>
+          <h2>{v['title']}</h2>
+          <p>{v['text']}</p>
+          <a href="assets/videos/{v['file']}.mp4" download>Download video</a>
+        </figcaption>
+      </figure>
+""" for v in VIDEOS) + """    </article>
+""", "Short videos of Farenwide in action: plan, journal and relive your trips.")
 
 
 page("support.html", "Support — Farenwide", f"""
