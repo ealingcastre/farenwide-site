@@ -120,6 +120,16 @@ nav a:hover {
   font-size: 0.9rem;
 }
 
+a.badge { color: var(--ink); font-size: 1.2rem; font-weight: 700; padding: 12px 24px; text-decoration: none; }
+a.badge:hover { filter: brightness(1.08); }
+
+.get .soon {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .features {
   display: flex;
   flex-wrap: wrap;

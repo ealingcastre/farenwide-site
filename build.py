@@ -185,7 +185,11 @@ page("index.html", "Farenwide — plan, journal and relive your trips", f"""
       <h1>Plan it. Live it. Relive it.</h1>
       <p class="lead">Farenwide is a travel app for planning your days, journaling as you go,
         and playing your trip back on the map &mdash; on your own or with your travel party.</p>
-      <span class="badge">Coming soon to iPhone and Android</span>
+      <div class="get">
+        <a class="badge" href="https://play.google.com/store/apps/details?id=com.projectAlamo.farenwide"
+          target="_blank" rel="noopener">Get it on Google Play</a>
+        <span class="soon">Coming soon to iPhone</span>
+      </div>
     </section>
 {STORY}
 {FEATURES}""", "Farenwide: plan your days, journal as you go, and relive your trips on the map.")
